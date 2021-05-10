@@ -7,7 +7,6 @@ namespace Diamond.Shared.Items
     public class WaterBottleItem : BaseDrinkItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Water Bottle";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A refreshing drink";
         public override int Weight { get; set; } = 1;
         

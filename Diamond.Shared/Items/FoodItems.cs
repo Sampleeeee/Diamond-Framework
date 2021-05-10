@@ -10,7 +10,6 @@ namespace Diamond.Shared.Items
     public class HotDogItem : BaseFoodItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Hotdog";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "Yummy";
 
         public override int RestoreHunger => 60;

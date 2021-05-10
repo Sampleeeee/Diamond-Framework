@@ -8,7 +8,6 @@ namespace Diamond.Shared.Items
     public class BeerItem : BaseAlcoholItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Beer";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A large glass bottle of beer.";
 
         public override string Model => "prop_beer_bottle";
@@ -31,7 +30,6 @@ namespace Diamond.Shared.Items
     public class BrandyItem : BaseAlcoholItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Brandy";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A bottle of brandy.";
 
         public override float Drunkness => 0.25f;
@@ -50,7 +48,6 @@ namespace Diamond.Shared.Items
     public class ChampagneItem : BaseAlcoholItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Champagne";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A bottle of sparkling champagne.";
 
         public override float Drunkness => 0.5f;
@@ -69,7 +66,6 @@ namespace Diamond.Shared.Items
     public class RumItem : BaseAlcoholItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Rum";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A clear jug of rum.";
 
         public override float Drunkness => 0.3f;
@@ -88,7 +84,6 @@ namespace Diamond.Shared.Items
     public class VodkaItem : BaseAlcoholItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Vodka";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A bottle of premium distilled vodka.";
 
         public override float Drunkness => 0.45f;
@@ -107,7 +102,6 @@ namespace Diamond.Shared.Items
     public class WineItem : BaseAlcoholItem, IPurchasableItem
     {
         public override string Name { get; set; } = "Wine";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A bottle of red wine.";
 
         public override float Drunkness => 0.4f;

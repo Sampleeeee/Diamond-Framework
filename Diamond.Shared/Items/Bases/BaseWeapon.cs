@@ -5,6 +5,8 @@ namespace Diamond.Shared.Items.Bases
     // it should put it into their weapon wheel
     public abstract class BaseWeaponItem : BaseItem
     {
+#if CLIENT
         public abstract uint WeaponHash { get; }
+#endif
     }
 }

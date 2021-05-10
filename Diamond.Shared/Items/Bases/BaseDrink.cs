@@ -19,14 +19,14 @@ namespace Diamond.Shared.Items.Bases
 
         public virtual int TimeOverride => -1;
         
-        public bool CanUse(Character character) => 
+        public virtual bool CanUse(Character character) => 
             Utility.DefaultCanUse(this, character);
 
 #if SERVER
         public void OnUse(Character character) =>
             character.Thirst += RestoreThirst;
 #else
-        public async Task OnUse(Character character)
+        public virtual async Task OnUse(Character character)
         {
 Debug.WriteLine("Drinking drink!");
             var prop = await World.CreateProp(new Model(Model), Game.PlayerPed.Position, Vector3.Zero, false, false);

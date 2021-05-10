@@ -6,10 +6,6 @@ using CitizenFX.Core.Native;
 using Diamond.Shared.Jobs;
 using Newtonsoft.Json;
 
-#if SERVER
-using CitizenFX.Core;
-#endif
-
 namespace Diamond.Shared
 {
     using Items.Bases;

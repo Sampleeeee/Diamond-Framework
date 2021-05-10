@@ -5,7 +5,6 @@ namespace Diamond.Shared.Jobs
     public class UnemployedJob : BaseJob
     {
         public override string Name => "Unemployed";
-        public override string UniqueId => GetType().FullName;
         public override string Description => "Lol you are poor.";
 
         public override List<BaseJobGrade> JobGrades { get; set; } = new List<BaseJobGrade>
@@ -16,8 +15,7 @@ namespace Diamond.Shared.Jobs
         public class Unemployed : BaseJobGrade
         {
             public override string Name => "Unemployed";
-            public override string UniqueId => GetType().FullName;
-            public override int Salary => 50;
+                public override int Salary => 50;
         }
     }
 }

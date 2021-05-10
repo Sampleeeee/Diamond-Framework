@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
@@ -9,32 +11,28 @@ namespace Diamond.Client.Handlers
 {
     public class WeaponHandler : BaseScript
     {
-        public WeaponHandler()
-        {
-            // var timer = new Timer(2000) { Enabled = true, AutoReset = true };
-            // timer.Elapsed += OnTimerElapsed;
-            //
-            // timer.Start();
-        }
+        private int _lastGameTime = 0;
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        [Tick]
+        private async Task OnTick()
         {
-            // var ped = Game.PlayerPed;
-            // foreach (KeyValuePair<BaseItem, int> kvp in MainClient.Character.Inventory)
-            // {
-            //     if (!(kvp.Key is BaseWeaponItem weapon)) return;
-            //     
-            //     if (!API.HasPedGotWeapon(ped.Handle, weapon.WeaponHash, false))
-            //         API.GiveWeaponToPed(ped.Handle, weapon.WeaponHash, 0, false, false);
-            // }
-            //
-            // // TODO this will not set ammo to 0 if the player doesn't have any ammo.
-            // // ex. he has a combat pistol but no pistol ammo. He could pick up ammo from the ground.
-            // foreach (KeyValuePair<BaseItem, int> kvp in MainClient.Character.Inventory.Where(kvp => kvp.Key is BaseAmmoItem))
-            // {
-            //     if (!(kvp.Key is BaseAmmoItem ammo)) return;
-            //     API.SetPedAmmoByType(ped.Handle, ammo.AmmoHash, kvp.Value);
-            // }
+            if (MainClient.Character == null) return;
+
+            int gameTime = API.GetGameTimer();
+            if (gameTime < _lastGameTime + 2000) return;
+
+            var ped = Game.PlayerPed;
+            
+            foreach (KeyValuePair<BaseItem, int> kvp in MainClient.Character.Inventory)
+            {
+                if (!(kvp.Key is BaseWeaponItem weapon)) continue;
+                Console.WriteLine("Is weapon");
+        
+                if (!API.HasPedGotWeapon(ped.Handle, weapon.WeaponHash, false))
+                    API.GiveWeaponToPed(ped.Handle, weapon.WeaponHash, 0, false, false);
+            }
+
+            _lastGameTime = gameTime;
         }
     }
 }

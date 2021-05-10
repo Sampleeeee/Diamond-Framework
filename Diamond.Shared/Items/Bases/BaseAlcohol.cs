@@ -12,7 +12,7 @@ namespace Diamond.Shared.Items.Bases
         public virtual int Damage => 1;
         
 #if CLIENT
-        public async Task OnUse(Character character)
+        public override async Task OnUse(Character character)
         {
             await base.OnUse(character);
             // TODO this

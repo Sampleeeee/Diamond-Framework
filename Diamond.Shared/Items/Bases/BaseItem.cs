@@ -8,7 +8,7 @@ namespace Diamond.Shared.Items.Bases
     public abstract class BaseItem
     {
         public abstract string Name { get; set; }
-        public abstract string UniqueId { get; }
+        public string UniqueId => GetType().FullName;
         public abstract string Description { get; set; }
 
         public virtual int Weight { get; set; } = 1;

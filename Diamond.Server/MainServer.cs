@@ -47,6 +47,8 @@ namespace Diamond.Server
             player.TriggerEvent("SetupCharacter", json);
             
             character.Inventory.AddItem(new HotDogItem(), 10);
+            character.Inventory.AddItem(new CombatPistolItem());
+            character.Inventory.AddItem(new PistolAmmoItem());
         }
 
         [EventHandler("GiveItem")]

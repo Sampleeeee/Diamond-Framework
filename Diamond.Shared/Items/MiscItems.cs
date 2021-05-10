@@ -8,7 +8,6 @@ namespace Diamond.Shared.Items
     public class KevlarItem : BaseItem
     {
         public override string Name { get; set; } = "Kevlar";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A protective vest that gives you 100 armor";
         public override int Weight { get; set; } = 2;
 
@@ -22,7 +21,6 @@ namespace Diamond.Shared.Items
     public class RopeItem : BaseItem, IAmazoomItem
     {
         public override string Name { get; set; } = "Rope";
-        public override string UniqueId => GetType().FullName;
         public override string Description { get; set; } = "A strong rope to tie people with.";
         public override int Weight { get; set; } = 1;
 
