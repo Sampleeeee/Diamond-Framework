@@ -1,0 +1,3 @@
+﻿namespace Diamond.Shared.Items
+{
+}

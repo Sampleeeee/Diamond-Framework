@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diamond.Client", "Diamond.Client\Diamond.Client.csproj", "{8568B725-ED36-42C3-974B-050EEDC383ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diamond.Server", "Diamond.Server\Diamond.Server.csproj", "{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8568B725-ED36-42C3-974B-050EEDC383ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8568B725-ED36-42C3-974B-050EEDC383ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8568B725-ED36-42C3-974B-050EEDC383ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8568B725-ED36-42C3-974B-050EEDC383ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
