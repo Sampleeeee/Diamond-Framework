@@ -5,8 +5,9 @@ using Diamond.Shared.Items.Bases;
 using Diamond.Shared.Jobs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+#pragma warning disable 8765
 
-namespace Diamond.Shared
+namespace Diamond.Shared.JsonConverters
 {
 	public class CharacterJsonConverter : JsonConverter
 	{

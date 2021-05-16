@@ -1,0 +1,68 @@
+﻿@inherits DiamondComponent
+
+<div class="ui">
+    <div class="inventory">
+        <div id="player-inventory">
+            @if (EventArguments?.Primary != null)
+            {
+                @foreach ((var item, int value) in EventArguments.Primary)
+                {
+                    <div class="slot">
+                        <button class="item @GetActiveClass(item)" style="@GetStyle(item)" @onclick="() => OnItemClicked(item)">
+                            <div class="item-count">@value</div>
+                            <div class="item-name">@item.Name</div>
+                            <div class="item-name-bg"></div>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+        <div id="controls">
+            @if (!string.IsNullOrWhiteSpace(EventArguments?.InfoText))
+            {
+                <div class="info-div">
+                    @EventArguments.InfoText
+                </div>
+            }
+            <div class="controls-div">
+                <input type="number" id="count" class="control" @bind-value="_itemCount" />
+
+                @* TODO add localization *@
+                <button class="control" @onclick="async _ => await OnUse()" id="use">Use</button>
+                <button class="control" @onclick="_ => OnGive()" id="give">Give</button>
+                <button class="control" @onclick="async _ => await OnDrop()" id="drop">Drop</button>
+            </div>
+        </div>
+        <div id="other-inventory">
+            @if (EventArguments?.Secondary == null)
+            {
+                <div id="no-second-inventory-message">Secondary inventory is not available.</div>
+            }
+            else
+            {
+                @foreach ((var item, int value) in EventArguments.Secondary)
+                {
+                    <div class="slot">
+                        <button class="item @GetActiveClass(item, true)" style="@GetStyle(item)" @onclick="() => OnItemClicked(item, false)">
+                            <div class="item-count">@value</div>
+                            <div class="item-name">@item.Name</div>
+                            <div class="item-name-bg"></div>
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    
+    @if (_showPlayerList && EventArguments?.Players != null)
+    {
+        <ul id="dialog">
+            @foreach ((int key, string value) in EventArguments.Players)
+            {
+                <li style="margin-bottom: 40px">
+                    <button class="nearby-player-button" @onclick="async () => await OnPlayerSelected(key)">@($"{value} ({key})")</button>
+                </li>
+            }
+        </ul>
+    }
+</div>

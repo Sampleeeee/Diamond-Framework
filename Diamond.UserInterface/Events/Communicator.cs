@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using RestSharp;
@@ -18,14 +19,33 @@ namespace Diamond.UserInterface.Events
 			string json = JsonConvert.SerializeObject( data );
 			Console.WriteLine( $"Triggering nui callback {name}: {json}" );
 
-			var client = new RestClient( $"https://{ParentResourceName}/{name}" );
-			client.AddDefaultHeader( "content-type", "application/json" );
+			var client = new RestClient( $"https://{ParentResourceName}" );
 
-			var request = new RestRequest( Method.POST )
-			{ Body = JsonConvert.SerializeObject( data ) };
+			var request = new RestRequest( $"/{name}", Method.POST );
+			request.AddParameter( "application/json", json,	ParameterType.RequestBody );
 
 			var response = client.Execute( request );
+
+			Console.WriteLine( response.Content );
 			return response.Content;
+
+
+
+
+			// var client = new RestClient( $"https://{ParentResourceName}/{name}" );
+			// client.AddDefaultHeader( "content-type", "application/json" );
+			//
+			// var request = new RestRequest( Method.POST );
+			// request.AddParameter( "application/json", json, ParameterType.RequestBody );
+			//
+			// Console.WriteLine(request.Parameters);
+			//
+			// var response = client.Execute( request );
+			//
+			// string content = response.Content;
+			// Console.WriteLine( content );
+			//
+			// return content;
 		}
 
 		[JSInvokable( "OnNuiEvent" )]
@@ -35,7 +55,7 @@ namespace Diamond.UserInterface.Events
 			if ( !_events.ContainsKey( name ) ) return;
 
 			foreach ( Action<string> callback in _events[name] )
-				callback?.Invoke( data );
+				callback.Invoke( data );
 		}
 
 		[JSInvokable( "SetParentResourceName" )]
@@ -44,21 +64,12 @@ namespace Diamond.UserInterface.Events
 			ParentResourceName = name;
 		}
 
-		private static void Test()
-		{
-			if ( string.IsNullOrWhiteSpace( ParentResourceName ) ) return;
-
-			var client = new RestClient( $"https://{ParentResourceName}/test" );
-			client.AddDefaultHeader( "content-type", "application/json" );
-
-			var request = new RestRequest( Method.POST );
-			var response = client.Execute( request );
-		}
-
 		public static void AddEventHandler( string name, Action<string> callback )
 		{
 			if ( !_events.ContainsKey( name ) )
 				_events[name] = new List<Action<string>>();
+
+			Console.WriteLine( "Adding event handler for " + name );
 
 			_events[name].Add( callback );
 		}

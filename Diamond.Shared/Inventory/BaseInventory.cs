@@ -62,6 +62,9 @@ namespace Diamond.Shared.Inventory
 			return !this._items.Contains( type ) ? 0 : this._values[this._items.IndexOf( type )];
 		}
 
+		public Dictionary<T, int> AsDictionary() =>
+			this.ToDictionary( kvp => kvp.Key, kvp => kvp.Value );
+
 		#region IEnumerator
 
 		public IEnumerator<KeyValuePair<T, int>> GetEnumerator()

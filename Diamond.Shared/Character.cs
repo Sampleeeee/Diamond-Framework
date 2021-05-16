@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Diamond.Shared.Inventory;
 using Diamond.Shared.Jobs;
+using Diamond.Shared.JsonConverters;
 using Newtonsoft.Json;
 
 #if !USER_INTERFACE

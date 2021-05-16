@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Diamond.Shared;
 using Diamond.Shared.Items;
+using Diamond.Shared.JsonConverters;
 using Newtonsoft.Json;
 
 namespace Diamond.Client.Handlers

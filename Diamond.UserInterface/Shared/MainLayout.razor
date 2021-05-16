@@ -1,11 +1,6 @@
 @inherits LayoutComponentBase
 
-@if (ShouldShowLayout)
+@if (InventoryEventArgs != null)
 {
-    @Body
-}
-
-@code
-{
-    public static bool ShouldShowLayout = true;
+    <InventoryPage EventArguments="@InventoryEventArgs" />
 }

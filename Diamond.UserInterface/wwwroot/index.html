@@ -7,7 +7,6 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Diamond.UserInterface</title>
-    <!--    <base href="/" />-->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="Diamond.UserInterface.styles.css" rel="stylesheet" />
@@ -30,12 +29,32 @@
           "Diamond.UserInterface",
           "OnNuiEvent",
           e.data.name,
-          JSON.stringify(e.data)
+          JSON.stringify(e.data.data)
         );
       });
       
       window.GetParentResourceName = window.GetParentResourceName || function(){ return "diamond"; };
 
+      window.TriggerNuiCallback = (name, data) => 
+      {
+        if (typeof(data) !== "string")
+        {
+          console.log("Not a string :(");
+          return;
+        }
+        
+        const  body = JSON.stringify({ data: data });
+        console.log("Body: " + body);
+        
+        fetch(`https://${GetParentResourceName()}/${name}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json charset=UTF-8'
+          },
+          body: body
+        }).then(resp => resp.json()).then(resp => console.log(resp));
+      }
+      
       Blazor.start({}).then((_) =>
         DotNet.invokeMethod(
           "Diamond.UserInterface",

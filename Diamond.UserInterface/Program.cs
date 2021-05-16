@@ -46,11 +46,11 @@ namespace Diamond.UserInterface
 					Communicator.AddEventHandler( attribute?.Name,
 						( Action<string> ) Delegate.CreateDelegate( actionType, method ) );
 				}
-				// else
-				// {
-				// 	Communicator.AddEventHandler( attribute?.Name,
-				// 		( Action<string> ) Delegate.CreateDelegate( actionType, , method ) );
-				// }
+				else
+				{
+					// Communicator.AddEventHandler( attribute?.Name,
+					// 	( Action<string> ) Delegate.CreateDelegate( actionType, , method ) );
+				}
 			}
 		}
 	}

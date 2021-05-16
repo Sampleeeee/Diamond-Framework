@@ -1,10 +1,12 @@
 using System;
-#if SERVER
-
-#endif
+using System.ComponentModel;
+using Diamond.Shared.JsonConverters;
+using Newtonsoft.Json;
 
 namespace Diamond.Shared.Items.Bases
 {
+	[JsonConverter(typeof(BaseItemJsonConverter))]
+	[TypeConverter( typeof( BaseItemTypeConverter ) )]
 	public abstract class BaseItem
 	{
 		public abstract string Name { get; set; }

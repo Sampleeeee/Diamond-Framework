@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Diamond.Shared;
+using Diamond.Shared.UserInterface.Inventory;
 using Newtonsoft.Json;
 
 namespace Diamond.Client
@@ -24,7 +27,16 @@ namespace Diamond.Client
 			TriggerServerEvent( "PlayerReady" );
 
 			await Delay( 1000 );
-			API.SendNuiMessage( JsonConvert.SerializeObject( new { name = "gay" } ) );
+
+			var players = this.Players.ToDictionary( player => player.ServerId, player => player.Name );
+
+			Utility.SendNuiMessage( "ShowInventory", new ShowInventoryEvent
+			{
+				Players = players,
+				Primary = Character.ItemInventory.AsDictionary()
+			} );
+			
+			API.SetNuiFocus( true, true );
 		}
 
 		[Tick]

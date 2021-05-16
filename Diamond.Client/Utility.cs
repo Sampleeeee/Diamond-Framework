@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
+using Newtonsoft.Json;
 
 namespace Diamond.Client
 {
@@ -69,6 +70,17 @@ namespace Diamond.Client
 			}
 
 			return new Tuple<int, int>( fcTorsoDrawable, fcTorsoTexture );
+		}
+
+		public static void SendNuiMessage( string name, object data )
+		{
+			var obj = new
+			{
+				data,
+				name
+			};
+			
+			API.SendNuiMessage( JsonConvert.SerializeObject( obj ) );
 		}
 	}
 }
