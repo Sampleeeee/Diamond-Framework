@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CitizenFX.Core;
-using CitizenFX.Core.Native;
+using Diamond.Shared.Inventory;
 using Diamond.Shared.Jobs;
 using Newtonsoft.Json;
+
+#if !USER_INTERFACE
+using CitizenFX.Core;
+using CitizenFX.Core.Native;
+#endif
 
 namespace Diamond.Shared
 {
@@ -13,11 +17,13 @@ namespace Diamond.Shared
     [JsonConverter(typeof(CharacterJsonConverter))]
     public class Character
     {
+#if !USER_INTERFACE
         public Player Player { get; set; }
 
         public Ped PlayerPed =>
             Entity.FromHandle(API.GetPlayerPed(Player.Handle)) as Ped;
-
+#endif
+	    
         public bool Alive
         {
             get
@@ -25,8 +31,11 @@ namespace Diamond.Shared
 #if SERVER
                 // todo this
                 return true;
-#else
+#elif CLIENT
                 return PlayerPed.IsDead;
+#else
+	            // todo this
+	            return true;
 #endif
             }
         }
@@ -98,7 +107,8 @@ namespace Diamond.Shared
             }
         }
 
-        public Inventory Inventory;
+        public ItemInventory ItemInventory;
+        public VehicleInventory VehicleInventory;
         
         public string FirstName { get; set; }
         public string LastName { get; set; }

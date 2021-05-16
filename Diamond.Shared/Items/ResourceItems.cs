@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
-using CitizenFX.Core;
 using Diamond.Shared.Items.Bases;
 
+#if !USER_INTERFACE
+using CitizenFX.Core;
+#endif
 
 namespace Diamond.Shared.Items
 {

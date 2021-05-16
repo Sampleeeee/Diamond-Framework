@@ -1,5 +1,8 @@
 ﻿using System.Threading.Tasks;
+
+#if !USER_INTERFACE
 using CitizenFX.Core;
+#endif
 
 namespace Diamond.Shared.Items.Bases
 {
@@ -10,7 +13,7 @@ namespace Diamond.Shared.Items.Bases
         
 #if SERVER
         void OnUse(Character character);
-#else
+#elif CLIENT
         Task OnUse(Character character);
 #endif
     }

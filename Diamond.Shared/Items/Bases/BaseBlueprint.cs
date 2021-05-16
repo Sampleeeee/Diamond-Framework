@@ -14,7 +14,7 @@ namespace Diamond.Shared.Items.Bases
 #if SERVER
         public void OnUse(Character character) =>
             Utility.DefaultOnUse(this, character);
-#else
+#elif CLIENT
         public async Task OnUse(Character character) =>
             Utility.DefaultOnUse(this, character);
 #endif

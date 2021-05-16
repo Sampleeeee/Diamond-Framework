@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using System.Timers;
-using CitizenFX.Core;
 
+#if !USER_INTERFACE
+using CitizenFX.Core;
+#endif
 
 namespace Diamond.Shared.Items.Bases
 {

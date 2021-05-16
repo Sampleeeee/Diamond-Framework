@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diamond.Client", "Diamond.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diamond.Server", "Diamond.Server\Diamond.Server.csproj", "{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diamond.UserInterface", "Diamond.UserInterface\Diamond.UserInterface.csproj", "{CC2A8BF1-FFFB-4655-8480-53783EA05BE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C200CF-5C4E-4F8C-9BA8-4A24214A4B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC2A8BF1-FFFB-4655-8480-53783EA05BE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2A8BF1-FFFB-4655-8480-53783EA05BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2A8BF1-FFFB-4655-8480-53783EA05BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2A8BF1-FFFB-4655-8480-53783EA05BE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using CitizenFX.Core;
 using Diamond.Shared.Items.Bases;
 
+#if !USER_INTERFACE
+using CitizenFX.Core;
+#endif
 
 namespace Diamond.Shared
 {
@@ -11,7 +13,10 @@ namespace Diamond.Shared
         public abstract string Name { get; }
         public abstract string UniqueId { get; }
 
+#if !USER_INTERFACE
         public abstract List<Vector3> Locations { get; }
+#endif
+	    
         public abstract List<IPurchasableItem> Items { get; }
         
 #if CLIENT

@@ -1,5 +1,7 @@
-using System.Management.Instrumentation;
+#if !USER_INTERFACE
 using CitizenFX.Core;
+#endif
+
 using Diamond.Shared.Items.Bases;
 
 
@@ -11,8 +13,10 @@ namespace Diamond.Shared.Items
         public override string Description { get; set; } = "A large glass bottle of beer.";
 
         public override string Model => "prop_beer_bottle";
+#if !USER_INTERFACE
         public override Vector3 Rotation => new Vector3(90f, 120f, 40f);
         public override Vector3 Offset => new Vector3(0.05f, -0.15f, 0f);
+#endif
 
         public override float Drunkness => 0.3f;
         public override int Damage => 5;

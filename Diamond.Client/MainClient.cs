@@ -2,6 +2,7 @@
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Diamond.Shared;
+using Newtonsoft.Json;
 
 namespace Diamond.Client
 {
@@ -21,6 +22,9 @@ namespace Diamond.Client
                 await Delay(0);
             
             TriggerServerEvent("PlayerReady");
+
+            await Delay(1000);
+            API.SendNuiMessage(JsonConvert.SerializeObject(new {name = "gay"}));
         }
 
         [Tick]
@@ -32,7 +36,7 @@ namespace Diamond.Client
             var texts = new string[]
             {
                 $"Name: {Character.FullName}\nJob: {Character.Job.Name}, {Character.JobGrade.Name}", 
-                $"Inventory Weight: {Character.Inventory.GetWeight()}\nMoney: {Character.Money:C}", 
+                $"Inventory Weight: {Character.ItemInventory.GetWeight()}\nMoney: {Character.Money:C}", 
                 $"Bank: {Character.Bank:C}\nDirty Money: {Character.DirtyMoney:C}",
                 $"Hunger: {Character.Hunger}\nThirst: {Character.Thirst}"
             };

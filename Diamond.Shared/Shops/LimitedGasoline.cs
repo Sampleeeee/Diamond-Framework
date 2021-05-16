@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using CitizenFX.Core;
 using Diamond.Shared;
 using Diamond.Shared.Items;
 using Diamond.Shared.Items.Bases;
 
+#if !USER_INTERFACE
+using CitizenFX.Core;
+#endif
 
 namespace Diamond.Client.Shops
 {
@@ -13,6 +15,7 @@ namespace Diamond.Client.Shops
         public override string Name => "Limited Gasoline";
         public override string UniqueId => GetType().FullName;
 
+#if !USER_INTERFACE
         public override List<Vector3> Locations => new List<Vector3>()
         {
             new Vector3(1163.25f, -323.98f, 69.21f - 0.975f),
@@ -22,6 +25,7 @@ namespace Diamond.Client.Shops
             new Vector3(1729f, 6413.91f, 35.04f - 0.975f),
             new Vector3(2557.98f, 382.23f, 108.62f - 0.975f)
         };
+#endif
 
         public override List<IPurchasableItem> Items => new List<IPurchasableItem>()
         {

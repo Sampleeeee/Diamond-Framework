@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+#if !USER_INTERFACE
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+#endif
 
 namespace Diamond.Shared.Items.Bases
 {
@@ -9,8 +12,10 @@ namespace Diamond.Shared.Items.Bases
     {
         public virtual int RestoreHunger => 10;
         public virtual string Model => "prop_cs_burger_01";
+#if !USER_INTERFACE
         public virtual Vector3 Offset => new Vector3(0.15f, 0f, 0.05f);
         public virtual Vector3 Rotation => new Vector3(0f, 120f, 0f);
+#endif
         
         public virtual KeyValuePair<string, string> Animation => 
             new KeyValuePair<string,string>("mp_player_inteat@burger", "mp_player_int_eat_burger_fp");
@@ -26,7 +31,7 @@ namespace Diamond.Shared.Items.Bases
 #if SERVER
         public void OnUse(Character character) =>
             character.Hunger += RestoreHunger;
-#else
+#elif CLIENT
         public async Task OnUse(Character character)
         {
             var prop = await World.CreateProp(new Model(Model), Game.PlayerPed.Position, Vector3.Zero, false, false);

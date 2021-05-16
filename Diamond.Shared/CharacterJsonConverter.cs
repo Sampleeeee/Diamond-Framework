@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Diamond.Shared.Inventory;
 using Diamond.Shared.Items.Bases;
 using Diamond.Shared.Jobs;
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ namespace Diamond.Shared
                         
                 writer.WritePropertyName("Inventory");
                 writer.WriteStartObject();
-                    foreach (var kvp in character.Inventory)
+                    foreach (var kvp in character.ItemInventory)
                     {
                         if (kvp.Value <= 0) continue;
                         
@@ -81,7 +82,7 @@ namespace Diamond.Shared
                 JobGrade = Activator.CreateInstance(Type.GetType(jobGrade)) as BaseJobGrade
             };
 
-            character.Inventory = new Inventory(character, items);
+            character.ItemInventory = new ItemInventory(character, items);
             return character;
         }
 

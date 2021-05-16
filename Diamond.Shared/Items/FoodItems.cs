@@ -1,6 +1,9 @@
 using System.Collections.Generic;
-using CitizenFX.Core;
 using Diamond.Shared.Items.Bases;
+
+#if !USER_INTERFACE
+using CitizenFX.Core;
+#endif
 
 
 // TODO all of these should be IPurchaseable

@@ -18,8 +18,14 @@ elseif ENV.ApplicationType == ApplicationType.Development then
     appTypeFolder = "Debug";
 end
 
+client_script("./client.lua");
+
+file("./Diamond.UserInterface/bin/Release/net5.0/publish/wwwroot/**");
+ui_page("./Diamond.UserInterface/bin/Release/net5.0/publish/wwwroot/index.html");
+
 client_script("./Diamond.Client/bin/" + appTypeFolder + "/MenuAPI.dll");
 client_script("./Diamond.Client/bin/" + appTypeFolder + "/Diamond.Client.net.dll");
 server_script("./Diamond.Server/bin/" + appTypeFolder + "/Diamond.Server.net.dll");
+
 
 file("./Diamond.Client/bin/" + appTypeFolder + "/Newtonsoft.Json.dll");

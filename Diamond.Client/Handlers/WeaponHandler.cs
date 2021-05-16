@@ -23,7 +23,7 @@ namespace Diamond.Client.Handlers
 
             var ped = Game.PlayerPed;
             
-            foreach (KeyValuePair<BaseItem, int> kvp in MainClient.Character.Inventory)
+            foreach (KeyValuePair<BaseItem, int> kvp in MainClient.Character.ItemInventory)
             {
                 if (!(kvp.Key is BaseWeaponItem weapon)) continue;
                 Console.WriteLine("Is weapon");
