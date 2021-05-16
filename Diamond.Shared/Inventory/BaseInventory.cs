@@ -20,22 +20,22 @@ namespace Diamond.Shared.Inventory
 
 		protected BaseInventory( Character owner )
 		{
-			Owner = owner;
+			this.Owner = owner;
 		}
 
 		public void AddItem( Type type, int amount = 1 )
 		{
 			if ( type == null || !type.IsSubclassOf( typeof( BaseItem ) ) ) return;
 
-			if ( _items.Contains( type ) )
+			if ( this._items.Contains( type ) )
 			{
-				int location = _items.IndexOf( type );
-				_values[location] += amount;
+				int location = this._items.IndexOf( type );
+				this._values[location] += amount;
 			}
 			else
 			{
-				_items.Add( type );
-				_values.Insert( _items.IndexOf( type ), amount );
+				this._items.Add( type );
+				this._values.Insert( this._items.IndexOf( type ), amount );
 			}
 
 #if SERVER
@@ -44,41 +44,39 @@ namespace Diamond.Shared.Inventory
 #endif
 		}
 
-		public void AddItem( T item, int amount = 1 ) =>
-			AddItem( item.GetType(), amount );
+		public void AddItem( T item, int amount = 1 ) => this.AddItem( item.GetType(), amount );
 
-		public void TakeItem( T item, int amount = 1 ) =>
-			AddItem( item, -amount );
+		public void TakeItem( T item, int amount = 1 ) => this.AddItem( item, -amount );
 
 		public bool HasItem( T item, int amount = 1 )
 		{
 			var type = item.GetType();
 
-			if ( !_items.Contains( type ) ) return false;
-			return _values[_items.IndexOf( type )] >= amount;
+			if ( !this._items.Contains( type ) ) return false;
+			return this._values[this._items.IndexOf( type )] >= amount;
 		}
 
 		public int GetCount( T item )
 		{
 			var type = item.GetType();
-			return !_items.Contains( type ) ? 0 : _values[_items.IndexOf( type )];
+			return !this._items.Contains( type ) ? 0 : this._values[this._items.IndexOf( type )];
 		}
 
 		#region IEnumerator
 
 		public IEnumerator<KeyValuePair<T, int>> GetEnumerator()
 		{
-			return new BaseInventoryEnumerator<T>( _items, _values );
+			return new BaseInventoryEnumerator<T>( this._items, this._values );
 		}
 
 		private IEnumerator GetEnumerator1()
 		{
-			return GetEnumerator();
+			return this.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return GetEnumerator1();
+			return this.GetEnumerator1();
 		}
 
 		#endregion
@@ -96,46 +94,44 @@ namespace Diamond.Shared.Inventory
 		{
 			get
 			{
-				if ( _current == null )
+				if ( this._current == null )
 					throw new InvalidOperationException();
 
-				return ( KeyValuePair<T, int> )_current;
+				return ( KeyValuePair<T, int> ) this._current;
 			}
 		}
 
-		private object Current1 => Current;
-		object IEnumerator.Current => Current1;
+		private object Current1 => this.Current;
+		object IEnumerator.Current => this.Current1;
 
 		public BaseInventoryEnumerator( List<Type> items, List<int> values )
 		{
-			_items = items;
-			_values = values;
+			this._items = items;
+			this._values = values;
 		}
 
 		public bool MoveNext()
 		{
-			if ( _items.Count <= 0 ) return false;
-			if ( _items.Count < _position + 1 ) return false;
+			if ( this._items.Count <= 0 ) return false;
+			if ( this._items.Count < this._position + 1 ) return false;
 
-			object instance = Activator.CreateInstance( _items[_position] );
+			object instance = Activator.CreateInstance( this._items[this._position] );
 
-			if ( instance is T i )
-				_current = new KeyValuePair<T, int>( i, _values[_position] );
+			if ( instance is T i ) this._current = new KeyValuePair<T, int>( i, this._values[this._position] );
 
-			_position++;
+			this._position++;
 			return true;
 		}
 
 		public void Reset()
 		{
-			_position = 0;
-			_current = null;
+			this._position = 0;
+			this._current = null;
 		}
 
 		public void Dispose()
 		{ }
 
-		~BaseInventoryEnumerator() =>
-			Dispose();
+		~BaseInventoryEnumerator() => this.Dispose();
 	}
 }

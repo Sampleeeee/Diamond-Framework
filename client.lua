@@ -1,0 +1,4 @@
+-- RegisterNUICallback('test', function(data, cb)
+--     print "got the lua callback"
+--     cb({ item = "Test" })
+-- end)

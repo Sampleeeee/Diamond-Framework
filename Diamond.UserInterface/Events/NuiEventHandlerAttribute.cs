@@ -9,7 +9,7 @@ namespace Diamond.UserInterface.Events
 
 		public NuiEventHandlerAttribute( string name )
 		{
-			Name = name;
+			this.Name = name;
 		}
 	}
 }

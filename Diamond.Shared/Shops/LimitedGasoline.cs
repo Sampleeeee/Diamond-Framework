@@ -13,7 +13,7 @@ namespace Diamond.Client.Shops
 	public class LimitedGasolineShop : BaseShop
 	{
 		public override string Name => "Limited Gasoline";
-		public override string UniqueId => GetType().FullName;
+		public override string UniqueId => this.GetType().FullName;
 
 #if !USER_INTERFACE
 		public override List<Vector3> Locations => new List<Vector3>()
@@ -38,6 +38,10 @@ namespace Diamond.Client.Shops
 
 		public override BlipColor BlipColor => ( BlipColor )30;
 		public override Color MarkerColor => Color.FromArgb( 0, 0, 255 );
+#endif
+
+#if USER_INTERFACE
+		public override string ImageUrl => "./images/shops/ltd.png";
 #endif
 	}
 }

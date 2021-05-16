@@ -26,5 +26,9 @@ namespace Diamond.Shared
 		public virtual BlipColor BlipColor => BlipColor.White;
 		public virtual Color MarkerColor => Color.FromArgb( 255, 255, 255 );
 #endif
+		
+#if CLIENT || USER_INTERFACE
+		public virtual string ImageUrl => string.Empty;
+#endif
 	}
 }

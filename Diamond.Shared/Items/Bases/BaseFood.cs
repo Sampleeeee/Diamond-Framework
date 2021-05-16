@@ -34,12 +34,12 @@ namespace Diamond.Shared.Items.Bases
 #elif CLIENT
 		public async Task OnUse( Character character )
 		{
-			var prop = await World.CreateProp( new Model( Model ), Game.PlayerPed.Position, Vector3.Zero, false, false );
-			prop.AttachTo( Game.PlayerPed.Bones[Bone.SKEL_L_Hand], Offset, Rotation );
+			var prop = await World.CreateProp( new Model( this.Model ), Game.PlayerPed.Position, Vector3.Zero, false, false );
+			prop.AttachTo( Game.PlayerPed.Bones[Bone.SKEL_L_Hand], this.Offset, this.Rotation );
 
-			float duration = API.GetAnimDuration( Animation.Key, Animation.Value );
+			float duration = API.GetAnimDuration( this.Animation.Key, this.Animation.Value );
 
-			Game.PlayerPed.Task.PlayAnimation( Animation.Key, Animation.Value, 8f, -1,
+			Game.PlayerPed.Task.PlayAnimation( this.Animation.Key, this.Animation.Value, 8f, -1,
 				( AnimationFlags )49 );
 
 			await BaseScript.Delay( ( int )( duration * 1000f ) );

@@ -20,6 +20,8 @@ end
 
 client_script("./client.lua");
 
+file("./images/*");
+
 file("./Diamond.UserInterface/bin/Release/net5.0/publish/wwwroot/**");
 ui_page("./Diamond.UserInterface/bin/Release/net5.0/publish/wwwroot/index.html");
 

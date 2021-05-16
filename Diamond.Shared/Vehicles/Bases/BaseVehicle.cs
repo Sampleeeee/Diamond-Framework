@@ -2,7 +2,7 @@
 {
 	public abstract class BaseVehicle
 	{
-		public virtual string UniqueId => GetType().FullName;
+		public virtual string UniqueId => this.GetType().FullName;
 		public abstract string Make { get; }
 		public abstract string Model { get; }
 		public virtual string Category => "Other";

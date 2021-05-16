@@ -13,6 +13,8 @@ namespace Diamond.Shared.Items
 		public override string Description { get; set; } = "A large glass bottle of beer.";
 
 		public override string Model => "prop_beer_bottle";
+		public override string ImageUrl => "./images/items/beer.png";
+		
 #if !USER_INTERFACE
 		public override Vector3 Rotation => new Vector3( 90f, 120f, 40f );
 		public override Vector3 Offset => new Vector3( 0.05f, -0.15f, 0f );
@@ -53,6 +55,8 @@ namespace Diamond.Shared.Items
 	{
 		public override string Name { get; set; } = "Champagne";
 		public override string Description { get; set; } = "A bottle of sparkling champagne.";
+
+		public override string ImageUrl => "./images/items/champagne.png";
 
 		public override float Drunkness => 0.5f;
 		public override int Damage => 5;
@@ -108,6 +112,8 @@ namespace Diamond.Shared.Items
 		public override string Name { get; set; } = "Wine";
 		public override string Description { get; set; } = "A bottle of red wine.";
 
+		public override string ImageUrl => "./images/items/wine.png";
+		
 		public override float Drunkness => 0.4f;
 		public override int Damage => 10;
 

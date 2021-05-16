@@ -12,7 +12,7 @@ namespace Diamond.Shared.Shops
 	public class TwentyFourSevenShop : BaseShop
 	{
 		public override string Name => "Twenty Four Seven";
-		public override string UniqueId => GetType().FullName;
+		public override string UniqueId => this.GetType().FullName;
 
 #if !USER_INTERFACE
 		public override List<Vector3> Locations => new List<Vector3>()

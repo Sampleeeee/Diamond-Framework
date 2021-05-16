@@ -21,7 +21,7 @@ namespace Diamond.Shared
 		public Player Player { get; set; }
 
 		public Ped PlayerPed =>
-			Entity.FromHandle( API.GetPlayerPed( Player.Handle ) ) as Ped;
+			Entity.FromHandle( API.GetPlayerPed( this.Player.Handle ) ) as Ped;
 #endif
 
 		public bool Alive
@@ -32,7 +32,7 @@ namespace Diamond.Shared
                 // todo this
                 return true;
 #elif CLIENT
-				return PlayerPed.IsDead;
+				return this.PlayerPed.IsDead;
 #else
 	            // todo this
 	            return true;
@@ -43,10 +43,10 @@ namespace Diamond.Shared
 		private int _money;
 		public int Money
 		{
-			get => _money;
+			get => this._money;
 			set
 			{
-				_money = value;
+				this._money = value;
 #if SERVER
                 Player.TriggerEvent("MoneyUpdated", _money);
 #endif
@@ -56,10 +56,10 @@ namespace Diamond.Shared
 		private int _bank;
 		public int Bank
 		{
-			get => _bank;
+			get => this._bank;
 			set
 			{
-				_bank = value;
+				this._bank = value;
 #if SERVER
                 Player.TriggerEvent("BankUpdated", _bank);
 #endif
@@ -69,10 +69,10 @@ namespace Diamond.Shared
 		private int _dirtyMoney;
 		public int DirtyMoney
 		{
-			get => _money;
+			get => this._money;
 			set
 			{
-				_dirtyMoney = value;
+				this._dirtyMoney = value;
 #if SERVER
                 Player.TriggerEvent("DirtyMoneyUpdated", _dirtyMoney);
 #endif
@@ -82,10 +82,10 @@ namespace Diamond.Shared
 		private int _hunger;
 		public int Hunger
 		{
-			get => _hunger;
+			get => this._hunger;
 			set
 			{
-				_hunger = Utility.Clamp( value, 0, 100 );
+				this._hunger = Utility.Clamp( value, 0, 100 );
 
 #if SERVER
                 Player.TriggerEvent("HungerUpdated", _hunger);
@@ -96,10 +96,10 @@ namespace Diamond.Shared
 		private int _thirst;
 		public int Thirst
 		{
-			get => _thirst;
+			get => this._thirst;
 			set
 			{
-				_thirst = Utility.Clamp( value, 0, 100 );
+				this._thirst = Utility.Clamp( value, 0, 100 );
 
 #if SERVER
                 Player.TriggerEvent("ThirstUpdated", _thirst);
@@ -112,7 +112,7 @@ namespace Diamond.Shared
 
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
-		public string FullName => $"{FirstName} {LastName}";
+		public string FullName => $"{this.FirstName} {this.LastName}";
 
 		public bool Arrested { get; set; } = false;
 		public bool Recovery { get; set; } = false;
@@ -168,8 +168,7 @@ namespace Diamond.Shared
 			throw new NotImplementedException();
 		}
 
-		public bool CanAfford( int amount ) =>
-			Money - amount >= 0;
+		public bool CanAfford( int amount ) => this.Money - amount >= 0;
 	}
 
 	[Flags]

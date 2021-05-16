@@ -12,7 +12,7 @@ namespace Diamond.Shared.Shops
 	public class ScoopsLiquorBarn : BaseShop
 	{
 		public override string Name => "Scoops Liquor Barn";
-		public override string UniqueId => GetType().FullName;
+		public override string UniqueId => this.GetType().FullName;
 
 #if !USER_INTERFACE
 		public override List<Vector3> Locations => new List<Vector3>()

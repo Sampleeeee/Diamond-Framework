@@ -27,13 +27,13 @@ namespace Diamond.Client.Jobs.Police
 			if ( !MainClient.Character.Job.IsPolice ) return;
 
 
-			var player = GetPlayerToTackle();
+			var player = this.GetPlayerToTackle();
 			if ( player == null )
 			{
 				// TODO check distance
-				var ped = GetClosestPedToTackle();
+				var ped = this.GetClosestPedToTackle();
 				ped.Ragdoll();
-				DoTackle();
+				this.DoTackle();
 				return;
 			}
 
@@ -43,7 +43,7 @@ namespace Diamond.Client.Jobs.Police
 		// ReSharper disable twice AssignNullToNotNullAttribute
 		private Player GetPlayerToTackle()
 		{
-			return Players.OrderBy( x => Vector3.DistanceSquared( x.Character.Position, Game.PlayerPed.Position ) )
+			return this.Players.OrderBy( x => Vector3.DistanceSquared( x.Character.Position, Game.PlayerPed.Position ) )
 				.FirstOrDefault( x => x != Game.Player );
 		}
 

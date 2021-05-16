@@ -42,7 +42,7 @@ namespace Diamond.Server
 
 			character.ItemInventory = new ItemInventory( character );
 
-			Characters[player] = character;
+			this.Characters[player] = character;
 
 			string json = JsonConvert.SerializeObject( character );
 			player.TriggerEvent( "SetupCharacter", json );
@@ -56,12 +56,12 @@ namespace Diamond.Server
 		private void GiveItem( [FromSource] Player player, int iOther, string sItem, int amount )
 		{
 			Debug.WriteLine( "Giving Item" );
-			var other = Players[iOther];
+			var other = this.Players[iOther];
 
 			if ( player.Character.Position.DistanceToSquared( other.Character.Position ) > 4 * 4 ) return;
 
-			var character = Characters[player];
-			var otherCharacter = Characters[other];
+			var character = this.Characters[player];
+			var otherCharacter = this.Characters[other];
 			var item = Shared.Utility.GetItem( sItem );
 
 			if ( !character.ItemInventory.HasItem( item, amount ) )
@@ -91,7 +91,7 @@ namespace Diamond.Server
 			if ( !shop.Locations.Any( location => player.Character.Position.DistanceToSquared( location ) < 4 * 4 ) &&
 				shop.Items.Contains( purchasableItem ) ) return;
 
-			var character = Characters[player];
+			var character = this.Characters[player];
 			if ( !character.CanAfford( purchasableItem.Price ) ) return;
 			if ( !purchasableItem.CanBuy( character ) ) return;
 
@@ -105,7 +105,7 @@ namespace Diamond.Server
 		private void OnUseItem( [FromSource] Player player, string sItem )
 		{
 			var item = Shared.Utility.GetItem( sItem );
-			var character = Characters[player];
+			var character = this.Characters[player];
 
 			if ( !character.ItemInventory.HasItem( item ) ) return;
 			if ( !( item is IUseableItem useableItem ) ) return;

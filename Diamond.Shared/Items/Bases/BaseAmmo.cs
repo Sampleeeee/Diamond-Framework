@@ -32,7 +32,7 @@ namespace Diamond.Shared.Items.Bases
 		public Task OnUse( Character character )
 		{
 			Debug.WriteLine( "On use" );
-			API.AddPedAmmo( Game.PlayerPed.Handle, AmmoHash, Amount );
+			API.AddPedAmmo( Game.PlayerPed.Handle, this.AmmoHash, this.Amount );
 			return Task.FromResult( 0 );
 		}
 #endif

@@ -136,9 +136,18 @@
     <Compile Update="..\Diamond.Shared\Utility.cs">
       <Link>Diamond.Shared\Utility.cs</Link>
     </Compile>
+    <Compile Update="..\Diamond.Shared\UserInterface\Inventory.cs">
+      <Link>Diamond.Shared\UserInterface\Inventory.cs</Link>
+    </Compile>
+    <Compile Update="Pages\Shop.cs">
+      <DependentUpon>Shop.razor.razor</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\scripts" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
   </ItemGroup>
   <PropertyGroup>
     <DefineConstants>USER_INTERFACE</DefineConstants>

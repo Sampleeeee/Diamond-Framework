@@ -20,5 +20,7 @@ namespace Diamond.Shared.Items
 
 		public void OnBuy( Character character, int amount = 1 ) =>
 			Utility.DefaultOnBuy( this, character, amount );
+
+		public override string ImageUrl => "./images/items/water.png";
 	}
 }

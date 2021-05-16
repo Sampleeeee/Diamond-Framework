@@ -4,27 +4,21 @@ using Microsoft.AspNetCore.Components;
 
 namespace Diamond.UserInterface.Events
 {
-	public class Events : BaseNuiScript
+	// ReSharper disable once ClassNeverInstantiated.Global
+	public class Events
 	{
-		[Inject] private NavigationManager Navigation { get; set; }
+		[Inject] private static NavigationManager Navigation { get; set; }
 
 		[NuiEventHandler( "open" )]
-		public void OnOpen( string data )
+		public static void OnOpen( string data )
 		{
 			MainLayout.ShouldShowLayout = true;
 		}
 
-		[NuiEventHandler( "close" )]
-		public void OnClose()
+		[NuiEventHandler( "close" )] 
+		public static void OnClose( string data )
 		{
 			MainLayout.ShouldShowLayout = false;
-		}
-
-		[NuiEventHandler( "gay" )]
-		private void OnGayEvent( string data )
-		{
-			Console.WriteLine( "Got gay event! " + data );
-			Console.WriteLine( Communicator.TriggerNuiCallback( "test", new { someVar = "gay" } ) );
 		}
 	}
 }

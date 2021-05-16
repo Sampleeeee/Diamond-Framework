@@ -1,0 +1,64 @@
+﻿@page "/Shop"
+@using Diamond.Shared.Items.Bases
+@using Microsoft.VisualBasic
+<div class="ui">
+    <div class="shop">
+        <div id="shop-inventory">
+            @if (CurrentShop != null)
+            {
+                @foreach (var item in CurrentShop.Items)
+                {
+                    @if (item is BaseItem baseItem)
+                    {
+                        <div class="slot">
+                            <div class="item" style="background-image: url(@baseItem.ImageUrl)" draggable="true" @ondragstart="() => SelectedItem = baseItem">
+                                <div class="item-count">@($"{item.Price:C}")</div>
+                                @if (item.BulkAmount != 1)
+                                {
+                                    <div class="item-name">@($"{baseItem.Name} (x{item.BulkAmount})")</div>
+                                }
+                                else
+                                {
+                                    <div class="item-name">@($"{baseItem.Name}")</div>
+                                }
+                                
+                                <div class="item-name-bg"></div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <div id="controls">
+            <div class="info-logo">
+                <img src="@CurrentShop?.ImageUrl" alt=""/>
+            </div>
+            <div class="info-div">@CurrentShop?.Name</div>
+            <div class="controls-div">
+                <input type="number" id="count" class="control" @bind-value="ItemCount"/>
+
+                @* TODO add localization *@
+                <div class="control" dropzone="true" ondragover="event.preventDefault();" ondragstart="event.dataTransfer.setData('', event.target.id);" @ondrop="_ => OnBuy()" id="use">Buy</div>
+            </div>
+        </div>
+        <div id="player-inventory">
+            @if (PlayerInventory == null)
+            {
+                <div id="no-second-inventory-message">Inventory not available.</div>
+            }
+            else
+            {
+                @foreach ((var item, int value) in PlayerInventory)
+                {
+                    <div class="slot">
+                        <div class="item" style="background-image: url(@item.ImageUrl)">
+                            <div class="item-count">@value</div>
+                            <div class="item-name">@item.Name</div>
+                            <div class="item-name-bg"></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

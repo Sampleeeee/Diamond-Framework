@@ -35,16 +35,16 @@ namespace Diamond.Shared.Items.Bases
 		public virtual async Task OnUse( Character character )
 		{
 			Debug.WriteLine( "Drinking drink!" );
-			var prop = await World.CreateProp( new Model( Model ), Game.PlayerPed.Position, Vector3.Zero, false, false );
-			prop.AttachTo( Game.PlayerPed.Bones[Bone.SKEL_L_Hand], Offset, Rotation );
+			var prop = await World.CreateProp( new Model( this.Model ), Game.PlayerPed.Position, Vector3.Zero, false, false );
+			prop.AttachTo( Game.PlayerPed.Bones[Bone.SKEL_L_Hand], this.Offset, this.Rotation );
 
-			float duration = API.GetAnimDuration( Animation.Key, Animation.Value );
+			float duration = API.GetAnimDuration( this.Animation.Key, this.Animation.Value );
 
-			Game.PlayerPed.Task.PlayAnimation( Animation.Key, Animation.Value, 8f, -1,
+			Game.PlayerPed.Task.PlayAnimation( this.Animation.Key, this.Animation.Value, 8f, -1,
 				( AnimationFlags )49 );
 
-			if ( TimeOverride != -1 )
-				await BaseScript.Delay( TimeOverride );
+			if ( this.TimeOverride != -1 )
+				await BaseScript.Delay( this.TimeOverride );
 			else
 				await BaseScript.Delay( ( int )( duration * 1000f ) );
 

@@ -2,6 +2,8 @@ using System;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Text;
 using Diamond.UserInterface.Events;
@@ -28,12 +30,28 @@ namespace Diamond.UserInterface
 
 		private static void SetupAttributes()
 		{
-			IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
-				.SelectMany( assembly => assembly.GetTypes() )
-				.Where( type => type.IsSubclassOf( typeof( BaseNuiScript ) ) );
+			var methods = Assembly.GetExecutingAssembly().GetTypes()
+				.SelectMany( t => t.GetMethods() )
+				.Where( m => m.GetCustomAttributes( typeof( NuiEventHandlerAttribute ), false ).Length > 0 )
+				.ToArray();
+			
+			foreach ( var method in methods )
+			{
+				Type[] param = method.GetParameters().Select( p => p.ParameterType ).ToArray();
+				var actionType = Expression.GetDelegateType( param.Concat( new[] { typeof( void ) } ).ToArray() );
+				var attribute = method.GetCustomAttribute<NuiEventHandlerAttribute>();
 
-			foreach ( var type in types )
-				Activator.CreateInstance( type );
+				if ( method.IsStatic )
+				{
+					Communicator.AddEventHandler( attribute?.Name,
+						( Action<string> ) Delegate.CreateDelegate( actionType, method ) );
+				}
+				// else
+				// {
+				// 	Communicator.AddEventHandler( attribute?.Name,
+				// 		( Action<string> ) Delegate.CreateDelegate( actionType, , method ) );
+				// }
+			}
 		}
 	}
 }

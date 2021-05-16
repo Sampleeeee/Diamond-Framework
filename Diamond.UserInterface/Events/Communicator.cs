@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using RestSharp;
@@ -14,8 +9,6 @@ namespace Diamond.UserInterface.Events
 	public static class Communicator
 	{
 		public static string AppStyle = "display: none";
-
-		[Inject] private static IJSRuntime Javascript { get; set; }
 
 		private static Dictionary<string, List<Action<string>>> _events = new();
 		private static string ParentResourceName { get; set; }
@@ -64,8 +57,6 @@ namespace Diamond.UserInterface.Events
 
 		public static void AddEventHandler( string name, Action<string> callback )
 		{
-			Console.WriteLine( "Adding event handler " + name );
-
 			if ( !_events.ContainsKey( name ) )
 				_events[name] = new List<Action<string>>();
 

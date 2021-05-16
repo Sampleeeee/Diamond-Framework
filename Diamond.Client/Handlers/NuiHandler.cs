@@ -10,7 +10,7 @@ namespace Diamond.Client.Handlers
 		public NuiHandler()
 		{
 			API.RegisterNuiCallbackType( "test" );
-			EventHandlers["__cfx_nui:test"] += new Action<object, CallbackDelegate>( OnTestEvent );
+			this.EventHandlers["__cfx_nui:test"] += new Action<object, CallbackDelegate>( OnTestEvent );
 		}
 
 		private static void OnTestEvent( object data, CallbackDelegate cb )

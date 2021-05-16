@@ -19,7 +19,7 @@ namespace Diamond.Client.Handlers
 			if ( MainClient.Character == null ) return;
 
 			int gameTime = API.GetGameTimer();
-			if ( gameTime < _lastGameTime + 2000 ) return;
+			if ( gameTime < this._lastGameTime + 2000 ) return;
 
 			var ped = Game.PlayerPed;
 
@@ -32,7 +32,7 @@ namespace Diamond.Client.Handlers
 					API.GiveWeaponToPed( ped.Handle, weapon.WeaponHash, 0, false, false );
 			}
 
-			_lastGameTime = gameTime;
+			this._lastGameTime = gameTime;
 		}
 	}
 }
