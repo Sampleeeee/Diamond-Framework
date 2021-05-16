@@ -6,5 +6,5 @@ using CitizenFX.Core;
 
 namespace Diamond.Shared.Items
 {
-    // TODO these
+	// TODO these
 }

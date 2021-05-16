@@ -3,7 +3,7 @@ using Diamond.Shared.Items.Bases;
 
 namespace Diamond.Server
 {
-    public static class Extensions
-    {
-    }
+	public static class Extensions
+	{
+	}
 }

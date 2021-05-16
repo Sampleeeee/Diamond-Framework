@@ -2,12 +2,12 @@
 
 namespace Diamond.UserInterface.Events
 {
-	[AttributeUsage(AttributeTargets.Method)]
+	[AttributeUsage( AttributeTargets.Method )]
 	public class NuiEventHandlerAttribute : Attribute
 	{
 		public string Name { get; private set; }
 
-		public NuiEventHandlerAttribute(string name)
+		public NuiEventHandlerAttribute( string name )
 		{
 			Name = name;
 		}

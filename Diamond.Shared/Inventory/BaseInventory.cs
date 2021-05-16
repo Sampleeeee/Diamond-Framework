@@ -11,131 +11,131 @@ using Diamond.Shared.Items.Bases;
 
 namespace Diamond.Shared.Inventory
 {
-    public class BaseInventory<T> : IEnumerable<KeyValuePair<T, int>>
-    {
-        public Character Owner { get; set; }
+	public class BaseInventory<T> : IEnumerable<KeyValuePair<T, int>>
+	{
+		public Character Owner { get; set; }
 
-        protected List<Type> _items = new List<Type>();
-        protected List<int> _values = new List<int>();
+		protected List<Type> _items = new List<Type>();
+		protected List<int> _values = new List<int>();
 
-        protected BaseInventory(Character owner)
-        {
-            Owner = owner;
-        }
+		protected BaseInventory( Character owner )
+		{
+			Owner = owner;
+		}
 
-        public void AddItem(Type type, int amount = 1)
-        {
-            if (type == null || !type.IsSubclassOf(typeof(BaseItem))) return;
-            
-            if (_items.Contains(type))
-            {
-                int location = _items.IndexOf(type);
-                _values[location] += amount;
-            }
-            else
-            {
-                _items.Add(type);
-                _values.Insert(_items.IndexOf(type),amount);
-            }
+		public void AddItem( Type type, int amount = 1 )
+		{
+			if ( type == null || !type.IsSubclassOf( typeof( BaseItem ) ) ) return;
+
+			if ( _items.Contains( type ) )
+			{
+				int location = _items.IndexOf( type );
+				_values[location] += amount;
+			}
+			else
+			{
+				_items.Add( type );
+				_values.Insert( _items.IndexOf( type ), amount );
+			}
 
 #if SERVER
             if (Owner == null || Owner.Player == null) return;
             Owner.Player.TriggerEvent("InventoryUpdated", GetType().FullName, type.FullName, amount);
 #endif
-        }
-        
-        public void AddItem(T item, int amount = 1) =>
-            AddItem(item.GetType(), amount);
+		}
 
-        public void TakeItem(T item, int amount = 1) =>
-            AddItem(item, -amount);
+		public void AddItem( T item, int amount = 1 ) =>
+			AddItem( item.GetType(), amount );
 
-        public bool HasItem(T item, int amount = 1)
-        {
-            var type = item.GetType();
+		public void TakeItem( T item, int amount = 1 ) =>
+			AddItem( item, -amount );
 
-            if (!_items.Contains(type)) return false;
-            return _values[_items.IndexOf(type)] >= amount;
-        }
+		public bool HasItem( T item, int amount = 1 )
+		{
+			var type = item.GetType();
 
-        public int GetCount(T item)
-        {
-            var type = item.GetType();
-            return !_items.Contains(type) ? 0 : _values[_items.IndexOf(type)];
-        }
+			if ( !_items.Contains( type ) ) return false;
+			return _values[_items.IndexOf( type )] >= amount;
+		}
 
-        #region IEnumerator
-        
-        public IEnumerator<KeyValuePair<T, int>> GetEnumerator()
-        {
-            return new BaseInventoryEnumerator<T>(_items, _values);
-        }
-        
-        private IEnumerator GetEnumerator1()
-        {
-            return GetEnumerator();
-        }
-        
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator1();
-        }
-        
-        #endregion
-    }
+		public int GetCount( T item )
+		{
+			var type = item.GetType();
+			return !_items.Contains( type ) ? 0 : _values[_items.IndexOf( type )];
+		}
 
-    public class BaseInventoryEnumerator<T> : IEnumerator<KeyValuePair<T, int>>
-    {
-        private int _position = 0;
-        private List<Type> _items;
-        private List<int> _values;
-        
-        private KeyValuePair<T, int>? _current;
+		#region IEnumerator
 
-        public KeyValuePair<T, int> Current
-        {
-            get
-            {
-                if (_current == null)
-                    throw new InvalidOperationException();
+		public IEnumerator<KeyValuePair<T, int>> GetEnumerator()
+		{
+			return new BaseInventoryEnumerator<T>( _items, _values );
+		}
 
-                return (KeyValuePair<T, int>) _current;
-            }
-        }
+		private IEnumerator GetEnumerator1()
+		{
+			return GetEnumerator();
+		}
 
-        private object Current1 => Current;
-        object IEnumerator.Current => Current1;
-        
-        public BaseInventoryEnumerator(List<Type> items, List<int> values)
-        {
-            _items = items;
-            _values = values;
-        }
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator1();
+		}
 
-        public bool MoveNext()
-        {
-            if (_items.Count <= 0) return false;
-            if (_items.Count < _position + 1) return false;
+		#endregion
+	}
 
-            object instance = Activator.CreateInstance(_items[_position]);
+	public class BaseInventoryEnumerator<T> : IEnumerator<KeyValuePair<T, int>>
+	{
+		private int _position = 0;
+		private List<Type> _items;
+		private List<int> _values;
 
-            if (instance is T i)
-                _current = new KeyValuePair<T, int>(i, _values[_position]);
+		private KeyValuePair<T, int>? _current;
 
-            _position++;
-            return true;
-        }
+		public KeyValuePair<T, int> Current
+		{
+			get
+			{
+				if ( _current == null )
+					throw new InvalidOperationException();
 
-        public void Reset()
-        {
-            _position = 0;
-            _current = null;
-        }
+				return ( KeyValuePair<T, int> )_current;
+			}
+		}
 
-        public void Dispose()
-        { }
+		private object Current1 => Current;
+		object IEnumerator.Current => Current1;
 
-        ~BaseInventoryEnumerator() =>
-            Dispose();
-    }
+		public BaseInventoryEnumerator( List<Type> items, List<int> values )
+		{
+			_items = items;
+			_values = values;
+		}
+
+		public bool MoveNext()
+		{
+			if ( _items.Count <= 0 ) return false;
+			if ( _items.Count < _position + 1 ) return false;
+
+			object instance = Activator.CreateInstance( _items[_position] );
+
+			if ( instance is T i )
+				_current = new KeyValuePair<T, int>( i, _values[_position] );
+
+			_position++;
+			return true;
+		}
+
+		public void Reset()
+		{
+			_position = 0;
+			_current = null;
+		}
+
+		public void Dispose()
+		{ }
+
+		~BaseInventoryEnumerator() =>
+			Dispose();
+	}
 }

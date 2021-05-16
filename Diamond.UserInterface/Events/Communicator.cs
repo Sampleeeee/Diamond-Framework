@@ -14,62 +14,62 @@ namespace Diamond.UserInterface.Events
 	public static class Communicator
 	{
 		public static string AppStyle = "display: none";
-		
+
 		[Inject] private static IJSRuntime Javascript { get; set; }
 
 		private static Dictionary<string, List<Action<string>>> _events = new();
 		private static string ParentResourceName { get; set; }
 
-		public static string TriggerNuiCallback(string name, dynamic data)
+		public static string TriggerNuiCallback( string name, dynamic data )
 		{
-			string json = JsonConvert.SerializeObject(data);
-			Console.WriteLine($"Triggering nui callback {name}: {json}");
+			string json = JsonConvert.SerializeObject( data );
+			Console.WriteLine( $"Triggering nui callback {name}: {json}" );
 
-			var client = new RestClient($"https://{ParentResourceName}/{name}");
-			client.AddDefaultHeader("content-type", "application/json");
+			var client = new RestClient( $"https://{ParentResourceName}/{name}" );
+			client.AddDefaultHeader( "content-type", "application/json" );
 
-			var request = new RestRequest(Method.POST)
-			{ Body = JsonConvert.SerializeObject(data) };
+			var request = new RestRequest( Method.POST )
+			{ Body = JsonConvert.SerializeObject( data ) };
 
-			var response = client.Execute(request);
+			var response = client.Execute( request );
 			return response.Content;
 		}
 
-		[JSInvokable("OnNuiEvent")]
-		public static void OnNuiEvent(string name, string data)
+		[JSInvokable( "OnNuiEvent" )]
+		public static void OnNuiEvent( string name, string data )
 		{
-			Console.WriteLine("Got event " + name);
-			if (!_events.ContainsKey(name)) return;
-			
-			foreach (Action<string> callback in _events[name])
-				callback?.Invoke(data);
+			Console.WriteLine( "Got event " + name );
+			if ( !_events.ContainsKey( name ) ) return;
+
+			foreach ( Action<string> callback in _events[name] )
+				callback?.Invoke( data );
 		}
 
-		[JSInvokable("SetParentResourceName")]
-		public static void SetParentResourceName(string name)
+		[JSInvokable( "SetParentResourceName" )]
+		public static void SetParentResourceName( string name )
 		{
 			ParentResourceName = name;
 		}
 
 		private static void Test()
 		{
-			if (string.IsNullOrWhiteSpace(ParentResourceName)) return;
+			if ( string.IsNullOrWhiteSpace( ParentResourceName ) ) return;
 
-			var client = new RestClient($"https://{ParentResourceName}/test");
-			client.AddDefaultHeader("content-type", "application/json");
+			var client = new RestClient( $"https://{ParentResourceName}/test" );
+			client.AddDefaultHeader( "content-type", "application/json" );
 
-			var request = new RestRequest(Method.POST);
-			var response = client.Execute(request);
+			var request = new RestRequest( Method.POST );
+			var response = client.Execute( request );
 		}
 
-		public static void AddEventHandler(string name, Action<string> callback)
+		public static void AddEventHandler( string name, Action<string> callback )
 		{
-			Console.WriteLine("Adding event handler " + name);
+			Console.WriteLine( "Adding event handler " + name );
 
-			if (!_events.ContainsKey(name))
+			if ( !_events.ContainsKey( name ) )
 				_events[name] = new List<Action<string>>();
 
-			_events[name].Add(callback);
+			_events[name].Add( callback );
 		}
 	}
 }

@@ -9,17 +9,17 @@ namespace Diamond.Client.Handlers
 	{
 		public NuiHandler()
 		{
-			API.RegisterNuiCallbackType("test");
-			EventHandlers["__cfx_nui:test"] += new Action<object, CallbackDelegate>(OnTestEvent);
+			API.RegisterNuiCallbackType( "test" );
+			EventHandlers["__cfx_nui:test"] += new Action<object, CallbackDelegate>( OnTestEvent );
 		}
-		
-		private static void OnTestEvent(object data, CallbackDelegate cb)
+
+		private static void OnTestEvent( object data, CallbackDelegate cb )
 		{
-			Debug.WriteLine("Got test!!!" + data);
-			cb(new
+			Debug.WriteLine( "Got test!!!" + data );
+			cb( new
 			{
 				item = "Test"
-			});
+			} );
 		}
 	}
 }

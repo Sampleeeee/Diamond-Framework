@@ -9,30 +9,30 @@ using Diamond.Shared.Items.Bases;
 
 namespace Diamond.Client.Handlers
 {
-    public class WeaponHandler : BaseScript
-    {
-        private int _lastGameTime = 0;
+	public class WeaponHandler : BaseScript
+	{
+		private int _lastGameTime = 0;
 
-        [Tick]
-        private async Task OnTick()
-        {
-            if (MainClient.Character == null) return;
+		[Tick]
+		private async Task OnTick()
+		{
+			if ( MainClient.Character == null ) return;
 
-            int gameTime = API.GetGameTimer();
-            if (gameTime < _lastGameTime + 2000) return;
+			int gameTime = API.GetGameTimer();
+			if ( gameTime < _lastGameTime + 2000 ) return;
 
-            var ped = Game.PlayerPed;
-            
-            foreach (KeyValuePair<BaseItem, int> kvp in MainClient.Character.ItemInventory)
-            {
-                if (!(kvp.Key is BaseWeaponItem weapon)) continue;
-                Console.WriteLine("Is weapon");
-        
-                if (!API.HasPedGotWeapon(ped.Handle, weapon.WeaponHash, false))
-                    API.GiveWeaponToPed(ped.Handle, weapon.WeaponHash, 0, false, false);
-            }
+			var ped = Game.PlayerPed;
 
-            _lastGameTime = gameTime;
-        }
-    }
+			foreach ( KeyValuePair<BaseItem, int> kvp in MainClient.Character.ItemInventory )
+			{
+				if ( !( kvp.Key is BaseWeaponItem weapon ) ) continue;
+				Console.WriteLine( "Is weapon" );
+
+				if ( !API.HasPedGotWeapon( ped.Handle, weapon.WeaponHash, false ) )
+					API.GiveWeaponToPed( ped.Handle, weapon.WeaponHash, 0, false, false );
+			}
+
+			_lastGameTime = gameTime;
+		}
+	}
 }
