@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Diamond.Shared.Items;
 using Diamond.Shared.Items.Bases;
-using Diamond.Shared.UserInterface.Inventory;
+using Diamond.Shared.UserInterface;
 using Diamond.UserInterface.Events;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -23,12 +23,45 @@ namespace Diamond.UserInterface.Shared
 			base.OnInitialized();
 		}
 	}
+
+	#region Shops
+	public partial class MainLayout
+	{
+		private ShowShopEventArgs? _showShopEventArgs;
+
+		private ShowShopEventArgs? ShowShopEventArgs
+		{
+			get => this._showShopEventArgs;
+			set => this.UpdateShopEventArgs( value );
+		}
+
+		[NuiEventHandler( "ShowShop" )]
+		public static void OnShowShopEvent( string data )
+		{
+			Console.WriteLine( data );
+			Instance.ShowShopEventArgs = JsonConvert.DeserializeObject<ShowShopEventArgs>( data );
+		}
+
+		[NuiEventHandler( "HideShop" )]
+		public static void OnHideShopEvent( string _ = "" )
+		{
+			Instance.ShowShopEventArgs = null;
+		}
+
+		private void UpdateShopEventArgs( ShowShopEventArgs? @event )
+		{
+			Console.WriteLine( "Updating inventory event args" );
+			this._showShopEventArgs = @event;
+			this.StateHasChanged();
+		}
+	}
+	#endregion
 	
 	#region Inventory
 	public partial class MainLayout
 	{
-		private ShowInventoryEvent? _showInventoryEvent;
-		private ShowInventoryEvent? InventoryEventArgs
+		private ShowInventoryEventArgs? _showInventoryEvent;
+		private ShowInventoryEventArgs? InventoryEventArgs
 		{
 			get => this._showInventoryEvent;
 			set => this.UpdateInventoryEventArgs( value );
@@ -38,16 +71,16 @@ namespace Diamond.UserInterface.Shared
 		public static void OnShowInventoryEvent( string data )
 		{
 			Console.WriteLine( "ShowInventoryEvent " + data );
-			Instance.InventoryEventArgs = JsonConvert.DeserializeObject<ShowInventoryEvent>( data );
+			Instance.InventoryEventArgs = JsonConvert.DeserializeObject<ShowInventoryEventArgs>( data );
 		}
 
 		[NuiEventHandler("HideInventory")]
-		public static void HideInventory( string _ )
+		public static void HideInventory( string _ = "" )
 		{
 			Instance.InventoryEventArgs = null;
 		}
 
-		private void UpdateInventoryEventArgs( ShowInventoryEvent? @event )
+		private void UpdateInventoryEventArgs( ShowInventoryEventArgs? @event )
 		{
 			Console.WriteLine("Updating inventory event args");
 			this._showInventoryEvent = @event;

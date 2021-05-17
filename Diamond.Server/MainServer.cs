@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core;
 using Diamond.Shared;
@@ -6,6 +7,7 @@ using Diamond.Shared.Inventory;
 using Diamond.Shared.Items;
 using Diamond.Shared.Items.Bases;
 using Diamond.Shared.Jobs;
+using Diamond.Shared.UserInterface;
 using Newtonsoft.Json;
 
 namespace Diamond.Server
@@ -50,6 +52,7 @@ namespace Diamond.Server
 			character.ItemInventory.AddItem( new HotDogItem(), 10 );
 			character.ItemInventory.AddItem( new CombatPistolItem() );
 			character.ItemInventory.AddItem( new PistolAmmoItem() );
+			character.ItemInventory.AddItem( new WaterBottleItem() );
 		}
 
 		[EventHandler( "GiveItem" )]
@@ -81,6 +84,32 @@ namespace Diamond.Server
 			Debug.WriteLine( "Gave Item" );
 		}
 
+		[EventHandler( "BoughtShopItem" )]
+		private void OnBoughtShopItem( [FromSource] Player player, string data )
+		{
+			Debug.WriteLine( "Bought item event" );
+			var @event = JsonConvert.DeserializeObject<ShopBuyItemEventArgs>( data );
+			var character = this.Characters[player];
+
+			if ( @event == null ) return;
+			if ( character == null ) return;
+
+			Debug.WriteLine( "Bought item event 2" );
+
+			if ( @event.Item is IPurchasableItem i )
+			{
+				// TODO notify player
+				if ( !character.CanAfford( i.Price ) ) return;
+				if ( !character.ItemInventory.CanAddItem( @event.Item ) ) return;
+
+				character.Money -= i.Price;
+				character.ItemInventory.AddItem( @event.Item );
+
+				i.OnBuy( character );
+				Network.TriggerClientEvent( player, "BoughtItemConfirmed", @event );
+			}
+		}
+
 		[EventHandler( "BuyItem" )]
 		private void OnBuyItem( [FromSource] Player player, string sShop, string sItem )
 		{
@@ -102,19 +131,21 @@ namespace Diamond.Server
 		}
 
 		[EventHandler( "UseItem" )]
-		private void OnUseItem( [FromSource] Player player, string sItem )
+		private void OnUseItem( [FromSource] Player player, string data )
 		{
-			var item = Shared.Utility.GetItem( sItem );
+			var @event = JsonConvert.DeserializeObject<ItemUsedEventArgs>( data );
+			if ( @event == null ) return;
+			
 			var character = this.Characters[player];
 
-			if ( !character.ItemInventory.HasItem( item ) ) return;
-			if ( !( item is IUseableItem useableItem ) ) return;
+			if ( !character.ItemInventory.HasItem( @event.Item ) ) return;
+			if ( !( @event.Item is IUseableItem useableItem ) ) return;
 			if ( !useableItem.CanUse( character ) ) return;
 
-			character.ItemInventory.TakeItem( item );
+			character.ItemInventory.TakeItem( @event.Item );
 			useableItem.OnUse( character );
-
-			character.Player.TriggerEvent( "UsedItem", item.UniqueId );
+			
+			Network.TriggerClientEvent( character.Player, "UsedItem", @event.Item );
 		}
 	}
 }

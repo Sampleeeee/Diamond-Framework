@@ -57,13 +57,13 @@
     <Compile Include="Handlers\CharacterHandler.cs" />
     <Compile Include="Handlers\InventoryHandler.cs" />
     <Compile Include="Handlers\MoneyHandler.cs" />
-    <Compile Include="Handlers\NuiHandler.cs" />
     <Compile Include="Handlers\ShopHandler.cs" />
     <Compile Include="Handlers\WeaponHandler.cs" />
     <Compile Include="Jobs\Police\Tackle.cs" />
     <Compile Include="MainClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="Wrappers\Nui.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="../Diamond.Shared/**/*.cs" />

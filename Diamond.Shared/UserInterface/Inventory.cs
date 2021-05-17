@@ -2,16 +2,16 @@
 using Diamond.Shared.Inventory;
 using Diamond.Shared.Items.Bases;
 
-namespace Diamond.Shared.UserInterface.Inventory
+namespace Diamond.Shared.UserInterface
 {
-	public class ShowInventoryEvent
+	public class ShowInventoryEventArgs
 	{
 		public string InfoText { get; set; } = string.Empty;
 		public Dictionary<BaseItem, int> Primary { get; set; }
 		public Dictionary<BaseItem, int> Secondary { get; set; } = null;
 		public Dictionary<int, string> Players { get; set; } = new Dictionary<int, string>();
 
-		public ShowInventoryEvent() { }
+		public ShowInventoryEventArgs() { }
 	}
 
 	public class ItemUsedEventArgs

@@ -140,8 +140,11 @@
     <Compile Update="..\Diamond.Shared\UserInterface\Inventory.cs">
       <Link>Diamond.Shared\UserInterface\Inventory.cs</Link>
     </Compile>
-    <Compile Update="Pages\Shop.cs">
-      <DependentUpon>Shop.razor.razor</DependentUpon>
+    <Compile Update="..\Diamond.Shared\UserInterface\Shop.cs">
+      <Link>Diamond.Shared\UserInterface\Shop.cs</Link>
+    </Compile>
+    <Compile Update="..\Diamond.Shared\JsonConverters\BaseShopConverter.cs">
+      <Link>JsonConverters\BaseShopConverter.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

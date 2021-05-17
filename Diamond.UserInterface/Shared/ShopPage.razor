@@ -1,0 +1,60 @@
+﻿@inherits DiamondComponent
+@using Diamond.Shared.Items.Bases
+
+@if (EventArguments != null)
+{
+     <div class="ui">
+        <div class="shop">
+            <div id="shop-inventory">
+                @foreach (var item in EventArguments.Shop.Items)
+                {
+                    @if (item is BaseItem baseItem)
+                    {
+                        <div class="slot">
+                            <button class="item @GetActiveClass(baseItem)" style="@GetStyle(baseItem)" @onclick="() => _selectedItem = baseItem">
+                                <div class="item-count">@($"{item.Price:C}")</div>
+                                @if (item.BulkAmount != 1)
+                                {
+                                    <div class="item-name">@($"{baseItem.Name} (x{item.BulkAmount})")</div>
+                                }
+                                else
+                                {
+                                    <div class="item-name">@($"{baseItem.Name}")</div>
+                                }
+                                
+                                <div class="item-name-bg"></div>
+                            </button>
+                        </div>
+                    }
+                }
+            </div>
+            <div id="controls">
+                @if (!string.IsNullOrWhiteSpace(EventArguments.Shop.ImageUrl))
+                {
+                    <div class="info-logo">
+                        <img src="@EventArguments.Shop.ImageUrl" alt=""/>
+                    </div>
+                }
+                <div class="info-div">@EventArguments.Shop.Name</div>
+                <div class="controls-div">
+                    <input type="number" id="count" class="control" @bind-value="_itemCount"/>
+
+                    @* TODO add localization *@
+                    <button class="control" @onclick="async _ => await OnBuy()" id="use">Buy</button>
+                </div>
+            </div>
+            <div id="player-inventory">
+                @foreach ((var item, int value) in EventArguments.PlayerInventory)
+                {
+                    <div class="slot">
+                        <button disabled class="item" style="background-image: url(@item.ImageUrl)">
+                            <div class="item-count">@value</div>
+                            <div class="item-name">@item.Name</div>
+                            <div class="item-name-bg"></div>
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

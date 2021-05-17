@@ -1,17 +1,60 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Diamond.Client.Wrappers;
+using Diamond.Shared;
 using Diamond.Shared.Inventory;
 using Diamond.Shared.Items.Bases;
-using Diamond.Shared.UserInterface.Inventory;
+using Diamond.Shared.UserInterface;
 using Newtonsoft.Json;
 
 namespace Diamond.Client.Handlers
 {
 	public class InventoryHandler : BaseScript
 	{
+		public InventoryHandler()
+		{
+			foreach ( string name in _nuiCallbackTypes ) API.RegisterNuiCallbackType( name );
+			
+			API.RegisterKeyMapping( "inventory", "Open Inventory", "keyboard", "f3" );
+		}
+
+		private bool _inventoryOpen;
+
+		[Command( "inventory" )]
+		private void OnInventoryCommand()
+		{
+			if ( this._inventoryOpen )
+				this.CloseInventory();
+			else
+				this.OpenInventory();
+		}
+
+		private void OpenInventory()
+		{
+			var players = this.Players.ToDictionary( player => player.ServerId, player => player.Name );
+
+			Utility.SendNuiMessage( "ShowInventory",
+				new ShowInventoryEventArgs
+				{
+					Players = players, Primary = MainClient.Character.ItemInventory.AsDictionary()
+				} );
+
+			Nui.EnableFocus( true, true );
+			this._inventoryOpen = true;
+		}
+
+		private void CloseInventory()
+		{
+			Nui.DisableFocus();
+			Utility.SendNuiMessage( "HideInventory" );
+			this._inventoryOpen = false;
+		}
+		
 		// ReSharper disable twice AssignNullToNotNullAttribute
 		private static readonly Dictionary<string, string> _eventNames = new Dictionary<string, string>()
 		{
@@ -25,12 +68,6 @@ namespace Diamond.Client.Handlers
 			"PrimaryInventoryItemGave", "SecondaryInventoryItemGave",
 			"PrimaryInventoryItemDropped", "SecondaryInventoryItemDropped"
 		};
-		
-		public InventoryHandler()
-		{
-			foreach ( string name in _nuiCallbackTypes )
-				API.RegisterNuiCallbackType( name );
-		}
 
 		[EventHandler( "InventoryUpdated" )]
 		private void OnInventoryUpdated( string inventoryType, string item, int amount )
@@ -47,9 +84,9 @@ namespace Diamond.Client.Handlers
 		}
 
 		[EventHandler( "UsedItem" )]
-		private void OnUsedItem( string sItem )
+		private void OnUsedItem( string data )
 		{
-			var item = Shared.Utility.GetItem( sItem );
+			BaseItem item = JsonConvert.DeserializeObject<BaseItem>( data );
 
 			if ( item is IUseableItem useableItem )
 				useableItem.OnUse( MainClient.Character );
@@ -59,7 +96,18 @@ namespace Diamond.Client.Handlers
 		private void OnPrimaryInventoryItemUsed( IDictionary<string, object> data, CallbackDelegate callback )
 		{
 			var json = ( string ) data["data"];
-			callback.Invoke( true );
+			var @event = JsonConvert.DeserializeObject<ItemUsedEventArgs>(json);
+			if ( @event == null ) return;
+
+			if ( @event.Item is IUseableItem )
+			{
+				Network.TriggerServerEvent( "UseItem", @event );
+				callback.Invoke( true );
+			}
+			else
+			{
+				callback.Invoke( false );
+			}
 		}
 	}
 }

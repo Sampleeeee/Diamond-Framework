@@ -1,6 +1,6 @@
 ﻿@inherits DiamondComponent
 
-<div class="ui">
+<div class="ui" @onkeydown="@KeyDown">
     <div class="inventory">
         <div id="player-inventory">
             @if (EventArguments?.Primary != null)

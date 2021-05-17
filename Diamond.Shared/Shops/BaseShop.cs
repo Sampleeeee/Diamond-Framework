@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using Diamond.Shared.Items.Bases;
-
+using Diamond.Shared.JsonConverters;
+using Newtonsoft.Json;
 #if !USER_INTERFACE
 using CitizenFX.Core;
 #endif
 
 namespace Diamond.Shared
 {
+	[TypeConverter(typeof(BaseShopTypeConverter))]
+	[JsonConverter(typeof(BaseShopJsonConverter))]
 	public abstract class BaseShop
 	{
 		public abstract string Name { get; }

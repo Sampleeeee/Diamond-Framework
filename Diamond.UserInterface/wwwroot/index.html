@@ -43,7 +43,7 @@
           return;
         }
         
-        const  body = JSON.stringify({ data: data });
+        const body = JSON.stringify({ data: data });
         console.log("Body: " + body);
         
         fetch(`https://${GetParentResourceName()}/${name}`, {
@@ -52,7 +52,7 @@
             'Content-Type': 'application/json charset=UTF-8'
           },
           body: body
-        }).then(resp => resp.json()).then(resp => console.log(resp));
+        }).then(resp => console.log(resp));
       }
       
       Blazor.start({}).then((_) =>

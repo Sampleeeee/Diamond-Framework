@@ -72,7 +72,7 @@ namespace Diamond.Client
 			return new Tuple<int, int>( fcTorsoDrawable, fcTorsoTexture );
 		}
 
-		public static void SendNuiMessage( string name, object data )
+		public static void SendNuiMessage( string name, object data = null )
 		{
 			var obj = new
 			{

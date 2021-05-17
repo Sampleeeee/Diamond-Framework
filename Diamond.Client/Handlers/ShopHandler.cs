@@ -1,25 +1,26 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using Diamond.Client.Extensions;
+using Diamond.Client.Wrappers;
+using Diamond.Shared;
+using Diamond.Shared.Items.Bases;
+using Diamond.Shared.UserInterface;
+using Newtonsoft.Json;
 
 namespace Diamond.Client.Handlers
 {
 	public class ShopHandler : BaseScript
 	{
-		// private Menu _menu = new Menu(" ");
-		// private bool _menuOpen = false;
+		private bool _menuOpen = false;
 
 		public ShopHandler()
 		{
 			CreateBlips();
-
-			// MenuController.MenuAlignment = MenuController.MenuAlignmentOption.Right;
-			// MenuController.AddMenu(_menu);
-			//
-			// _menu.OnMenuOpen += menu => _menuOpen = true;
-			// _menu.OnMenuClose += menu => _menuOpen = false;
+			API.RegisterNuiCallbackType( "BoughtShopItem" );
 		}
 
 		private static void CreateBlips()
@@ -38,32 +39,45 @@ namespace Diamond.Client.Handlers
 			}
 		}
 
-		// public void OpenMenu(BaseShop shop)
-		// {
-		//     _menu.MenuSubtitle = shop.Name;
-		//     _menu.HeaderTexture = new KeyValuePair<string, string>(shop.BannerDict, shop.BannerText);
-		//     _menu.ClearMenuItems();
-		//
-		//     foreach (var item in shop.Items)
-		//     {
-		//         if (!(item is BaseItem i)) continue;
-		//
-		//         var menuItem = new MenuItem(i.Name, i.Description) { Label = $"${item.Price} "};
-		//
-		//         if (!MainClient.Character.CanAfford(item.Price))
-		//             menuItem.Enabled = false;
-		//         
-		//         _menu.OnItemSelect += (menu, mItem, index) =>
-		//         {
-		//             if (menuItem == mItem)
-		//                 TriggerServerEvent("BuyItem", shop.UniqueId, i.UniqueId);
-		//         };
-		//             
-		//         _menu.AddMenuItem(menuItem);
-		//     }
-		//     
-		//     _menu.OpenMenu();
-		// }
+		private void CloseShop()
+		{
+			Utility.SendNuiMessage( "HideShop" );
+			Nui.DisableFocus();
+			this._menuOpen = false;
+		}
+
+		public void OpenShop(BaseShop shop)
+		{
+			Utility.SendNuiMessage( "ShowShop", new ShowShopEventArgs
+			{
+				Shop = shop,
+				PlayerInventory = MainClient.Character.ItemInventory.AsDictionary()
+			} );
+			
+			Nui.EnableFocus( true, true );
+			this._menuOpen = true;
+		}
+
+		[EventHandler( "__cfx_nui:BoughtShopItem" )]
+		private void OnBoughtShopItem( IDictionary<string, object> data, CallbackDelegate callback )
+		{
+			var json = ( string ) data["data"];
+			var @event = JsonConvert.DeserializeObject<ShopBuyItemEventArgs>( json );
+			
+			Network.TriggerServerEvent( "BoughtShopItem", @event );
+			callback.Invoke( true );
+		}
+
+		[EventHandler( "BoughtItemConfirmed" )]
+		private void OnBoughtItemConfirmed( string data )
+		{
+			var @event = JsonConvert.DeserializeObject<ShopBuyItemEventArgs>( data );
+
+			if ( @event.Item is IPurchasableItem i )
+				i.OnBuy( MainClient.Character );
+			
+			Debug.WriteLine("Successfully bought item!");
+		}
 
 		[Tick]
 		private Task DrawShopMarkers()
@@ -77,15 +91,15 @@ namespace Diamond.Client.Handlers
 					location.DrawMarkerHere( out float dist, MarkerType.HorizontalCircleSkinny, null, null, null, shop.MarkerColor );
 					if ( dist > 2 * 2 ) continue;
 
-					// if (!_menuOpen)
-					Screen.DisplayHelpTextThisFrame( "Press ~INPUT_CONTEXT~ to open this shop." );
+					if (!this._menuOpen)
+						Screen.DisplayHelpTextThisFrame( "Press ~INPUT_CONTEXT~ to open this shop." );
 
 					if ( !Game.IsControlJustPressed( 1, Control.Context ) ) continue;
 
-					// if (_menuOpen)
-					//     _menu.CloseMenu();
-					// else
-					//     OpenMenu(shop);
+					if ( this._menuOpen )
+						this.CloseShop();
+					else
+						this.OpenShop( shop );
 				}
 			}
 

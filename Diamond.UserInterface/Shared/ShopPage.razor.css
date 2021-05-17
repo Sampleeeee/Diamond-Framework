@@ -92,6 +92,11 @@ input[type=number] {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+    background-color: rgba(17, 5, 17, 0.6);
+}
+
+.item.active {
+    background-color: rgba(91, 82, 94, 0.6);
 }
 
 .item-name {
@@ -100,7 +105,7 @@ input[type=number] {
     text-align: center;
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 117px;
+    width: 115px;
     min-height: 20px;
     z-index: 500;
     font-size: 12px;
@@ -149,8 +154,7 @@ input[type=number] {
     transform: translate(-50%, -50%);
 }
 
-.info-logo img
-{
+.info-logo img {
     width: 200px;
 }
 

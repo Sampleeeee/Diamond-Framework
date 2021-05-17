@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Diamond.Shared.Items;
 using Diamond.Shared.Items.Bases;
-using Diamond.Shared.UserInterface.Inventory;
+using Diamond.Shared.UserInterface;
 using Diamond.UserInterface.Events;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 
@@ -13,7 +14,7 @@ namespace Diamond.UserInterface.Shared
 {
 	public partial class InventoryPage
 	{
-		[Parameter] public ShowInventoryEvent? EventArguments { get; set; }
+		[Parameter] public ShowInventoryEventArgs? EventArguments { get; set; }
 
 		private int _itemCount = 1;
 		private bool _showPlayerList = false;
@@ -81,5 +82,16 @@ namespace Diamond.UserInterface.Shared
 
 		private string GetStyle( BaseItem item ) =>
 			$"background-image: url({item.ImageUrl})";
+
+		private void KeyDown( KeyboardEventArgs e )
+		{
+			// switch ( e.Key )
+			// {
+			// 	case "esc":
+			// 	case "f3":
+			// 		MainLayout.HideInventory();
+			// 		break;
+			// }
+		}
 	}
 }
